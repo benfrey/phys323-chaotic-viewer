@@ -1,0 +1,210 @@
+{
+    "background": [0.0, 0.6, 1.0],
+    "camera": {
+        "position": [0.0, 1.8, 3.0],
+        "target": [0.0, 1.8, 0.0],
+        "up": [0.0, 1.0, 0.0]
+    },
+    "models": [
+        {
+            "type": "plane",
+            "shader": "texture",
+            "material": {
+                "color": [1.0, 1.0, 1.0],
+                "specular": [0.0, 0.0, 0.0],
+                "shininess": 1
+            },
+            "texture": {
+                "url": "images/Grass.jpg",
+                "scale": [10, 10]
+            },
+            "center": [0.0, 0.0, 0.0],
+            "size": [20.0, 1.0, 20.0]
+        },
+        {
+            "type": "sphere",
+            "shader": "texture",
+            "material": {
+                "color": [1.0, 1.0, 1.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "texture": {
+                "url": "images/Emoji.png",
+                "scale": [1, 1]
+            },
+            "center": [0.0, 3.0, -3.0],
+            "size": [1.5, 1.5, 1.5],
+            "rotate_x": 200
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [1.0, 0.0, 0.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [0.0, 1.5, -3.0],
+            "size": [1.0, 1.5, 1.0]
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [0.0, 0.0, 0.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [0.3, 0.75, -3.0],
+            "size": [0.1, 0.75, 0.1]
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [0.0, 0.0, 0.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [-0.3, 0.75, -3.0],
+            "size": [0.1, 0.75, 0.1]
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [0.0, 0.0, 0.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [0.6, 1.5, -3.0],
+            "size": [0.1, 1, 0.1],
+            "rotate_z": 30
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [0.0, 0.0, 0.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [-0.6, 1.5, -3.0],
+            "size": [0.1, 1, 0.1],
+            "rotate_z": -30
+        },
+        {
+            "type": "sphere",
+            "shader": "texture",
+            "material": {
+                "color": [1.0, 1.0, 1.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "texture": {
+                "url": "images/Emoji2.png",
+                "scale": [1, 1]
+            },
+            "center": [0.0, 1.0, 1.0],
+            "size": [1.5, 1.5, 1.5],
+            "rotate_x": 110
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [0.0, 0.0, 1.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [0.0, 1.0, 2.5],
+            "size": [1.0, 1.5, 1.0],
+            "rotate_x": 90
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [0.0, 0.0, 0.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [0.3, 1.0, 3.5],
+            "size": [0.1, 0.75, 0.1],
+            "rotate_x": 90
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [0.0, 0.0, 0.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [-0.3, 1.0, 3.5],
+            "size": [0.1, 0.75, 0.1],
+            "rotate_x": 90
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [0.0, 0.0, 0.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [0.6, 1.25, 2.0],
+            "size": [0.1, 1, 0.1],
+            "rotate_z": -30
+        },
+        {
+            "type": "cube",
+            "shader": "color",
+            "material": {
+                "color": [0.0, 0.0, 0.0],
+                "specular": [1.0, 1.0, 1.0],
+                "shininess": 32
+            },
+            "center": [-0.6, 1.25, 2.0],
+            "size": [0.1, 1, 0.1],
+            "rotate_z": 30
+        },
+        {
+            "type": "custom",
+            "shader": "texture",
+            "texture": {
+                "url": "images/Crate.jpg",
+                "scale": [1, 1]
+            },
+            "material": {
+                "color": [1.0, 1.0, 1.0],
+                "specular": [0.0, 0.0, 0.0],
+                "shininess": 1
+            },
+            "center": [2.3, 3.0, 1.0],
+            "size": [1.0, 1.0, 1.0]
+        }
+    ],
+    "light": {
+        "ambient": [0.15, 0.15, 0.15],
+        "point_lights": [
+            {
+                "position": [2.3, 5.0, 3],
+                "color": [1.0, 0.0, 0.0]
+            },
+            {
+                "position": [4.3, 5, 1],
+                "color": [0.0, 1.0, 0.0]
+            },
+            {
+                "position": [2.3, 5, -1],
+                "color": [0.0, 0.0, 1.0]
+            },
+            {
+                "position": [0.3, 5.0, 1],
+                "color": [1.0, 1.0, 1.0]
+            }
+        ]
+    }
+}

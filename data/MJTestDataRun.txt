@@ -1,0 +1,11 @@
+Date and Time 
+4/26/2022, 1:27:28 PM
+Number of Data Points
+896000
+Sample Size
+6400
+Sample Frequency
+6.40000000E+3
+
+System oscillating in a multi well potential.
+If you can read this note that's a good thing :)  
