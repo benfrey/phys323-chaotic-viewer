@@ -31,27 +31,58 @@
     </div>
     <div id="gui">
       <label for="bin_file">Import Binary File: </label>
-      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.4"> </script> 
-      Extract weights for consistent float32 Tensorflowjs saved model binary url <br>
-      <label for="bin_file">Import Binary File: </label>
       <input id="bin_file" type="file" onchange="{                                                                                                                                                       
         //https://github.com/tensorflow/tfjs/issues/386
         let myInline = (async function () {							    								    
-          const myBinaryFile = await	fetch(document.getElementById('bin_file'))
-          const myBuffer = await myBinaryFile.arrayBuffer() 
-           
+          
+          //const myBinaryFile = await fetch(document.getElementById('bin_file'))
+          //const myBuffer = await myBinaryFile.arrayBuffer() 
+          const myBinFile = document.getElementById('bin_file').files[0];
+          const myTxtFile = files[0];
+          console.log(myBinFile);
+
+          // More on the FileReader API by Mozilla: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+          var fr = new FileReader();
+          fr.onload = function () {
+            var data = fr.result;       // ArrayBuffer type object is used to represent a generic, fixed-length raw binary data buffer.
+            var dv = new DataView(data) // DataView view provides a low-level interface for reading and writing in a binary ArrayBuffer, 
+                                        // without having to care about the platform's endianness.
+            //console.log(data)
+            var f64 = new Float64Array(data.byteLength / 8); // Create a new Float64Array (double array) of size data.byteLength / 8
+            const littleEndian = true;  // From our x86 LabVIEW platform, we are using little endian encording
+          
+            for (let i = 0; i < f64.length; i++) {
+              f64[i] = dv.getFloat64(i*8, littleEndian); // Read a double float with littleEndian encoding
+              /*if (i<40) {
+                console.log(f64[i])
+              }*/
+            }   
+      
+            console.log(f64);
+
+            window.setTimeout(()=> {
+              alert ('Error reading file. Too big?');
+            }, 3000); // Timeout if it took longer than three seconds to read in a file
+          };
+          fr.readAsArrayBuffer(myBinFile);
+
+          /*
+          const myBuffer = reader.readAsArrayBuffer(myBinFile);
+          console.log(myBuffer);
           const dv = new DataView(myBuffer);
-          var f32 = new Float32Array(myBuffer.byteLength / 4);
+          console.log(dv)
+
+          var f64 = new Float64Array(myBuffer.byteLength / 8);
           const littleEndian = true;
           
-          for (let i = 0; i < f32.length; i++) {
-            f32[i] = dv.getFloat32(i*4, littleEndian);
-          }   
+          for (let i = 0; i < f64.length; i++) {
+            f64[i] = dv.getFloat64(i*8, littleEndian);
+          } */  
       
-          console.log(f32);
+          //console.log(f64)
 
-          const myWeightsJSON = JSON.stringify(f32,null,4)  	  
-          console.log(myWeightsJSON);
+          //const myWeightsJSON = JSON.stringify(f32,null,4)  	  
+          //console.log(myWeightsJSON);
           //document.getElementById('myWeights').value =  myWeightsJSON 
           })()
       }" />
