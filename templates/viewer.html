@@ -14,6 +14,7 @@
         var yData = {{{YDATA}}}; // [[1, 2, 4, 7, ...], [3, 4, 5, 6, ...], [4, 3, 5, 8, ...], ...] (state order, year order)
     </script>
     <script src="https://cdn.plot.ly/plotly-2.4.2.min.js"></script>
+    <script src="/js/processing.js"></script>
 </head>
 <body>
     <!-- create template here -->
@@ -26,21 +27,41 @@
           <canvas id="view"></canvas>
           <br/>
           <div class="spacer"></div>
-          <div id="gui">
-              <label for="bin_file">Import Binary File: </label>
-              <input id="bin_file" type="file" onchange="loadNewScene()" />
-              <!--<input id="txt_file" type="file" onchange="loadNewScene()" />-->
-              <label for="display_format">Display Format: </label>
-              <select id="display_format" @change="selectShadingAlgorithm()">
-                  <option value="phasespace">Phase Space</option>
-                  <option value="poincare">Poincare</option>
-              </select>
-              <br/>
-              <div class="spacer2"></div>
-          </div>
         </div>
     </div>
-    <script src="/js/jquery-3.6.0.min.js"></script>
+    <div id="gui">
+      <label for="bin_file">Import Binary File: </label>
+      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.4"> </script> 
+      Extract weights for consistent float32 Tensorflowjs saved model binary url <br>
+      <input id="myBinaryFile" type="text" size="130" value="https://benfrey.github.io/phys323-chaotic-viewer/data/MJTestDataRun.bin"><br><br>
+      <input id="bin_file" type="file" onchange="{                                                                                                                                                       
+        let myInline = (async function () {							    								    
+           const myBinaryFile = await	fetch(document.getElementById('myBinaryFile').value)    
+           const myBuffer = await myBinaryFile.arrayBuffer() 
+           
+           const dv = new DataView(myBuffer);
+           var f32 = new Float32Array(myBuffer.byteLength / 4);
+           const littleEndian = true;
+          
+           for (let i = 0; i < f32.length; i++) {
+              f32[i] = dv.getFloat32(i*4, littleEndian);
+           }   
+      
+           const myWeightsJSON = JSON.stringify(f32,null,4)  	  
+           console.log(myWeightsJSON);
+           //document.getElementById('myWeights').value =  myWeightsJSON 
+           })()
+      }" />
+      <!--<input id="txt_file" type="file" onchange="loadNewScene()" />-->
+      <label for="display_format">Display Format: </label>
+      <select id="display_format" @change="selectShadingAlgorithm()">
+          <option value="phasespace">Phase Space</option>
+          <option value="poincare">Poincare</option>
+      </select>
+      <br/>
+      <div class="spacer2"></div>
+  </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/vendor.js"></script>
     <script src="/js/foundation.js"></script>
     <script type="application/javascript">

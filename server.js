@@ -17,7 +17,7 @@ let default_txt_file = path.join(__dirname, 'data', 'MJTestDataRun.txt');
 
 // Setup express app
 let app = express();
-let port = 8000;
+let port = 3000;
 
 /*
 // Open usenergy.sqlite3 database
@@ -43,6 +43,7 @@ let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
 });
 */
 
+/*
 // Read bin file
 //fileFilter(default_bin_file, fnLineFilter, fnComplete);
 
@@ -50,7 +51,7 @@ let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
 function fileFilter(file, fnLineFilter, fnComplete) {
     var bPos = 0,
         mx = file.size,
-        BUFF_SIZE = 262144,
+        BUFF_SIZE = 262144, // 4096
         i = 0,
         collection = [],
         lineCount = 0;
@@ -77,23 +78,23 @@ function fileFilter(file, fnLineFilter, fnComplete) {
             var rez = r.map(fnLineFilter).filter(Boolean);
             if (rez.length) {
                 [].push.apply(collection, rez);
-            } /* end if */
+            } // end if
 
             if ((BUFF_SIZE * i) > mx) {
                 fnComplete(collection);
                 console.log("filtered " + file.name + " in " + (+new Date() - d1) + "ms  ");
-            } /* end if((BUFF_SIZE * i) > mx) */
+            } // end if((BUFF_SIZE * i) > mx) 
             else {
                 setTimeout(grabNextChunk, 0);
             }
 
         };
         fr.readAsText(myBlob, myBlob.type);
-    } /* end grabNextChunk() */
+    } // grab next chunck
 
     grabNextChunk();
-} /* end fileFilter() */
-
+} // end pf fileFilter()
+*/
 
 // Serve static files from 'public' directory
 app.use(express.static(public_dir));
