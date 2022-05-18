@@ -33,24 +33,27 @@
       <label for="bin_file">Import Binary File: </label>
       <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.4"> </script> 
       Extract weights for consistent float32 Tensorflowjs saved model binary url <br>
-      <input id="myBinaryFile" type="text" size="130" value="https://benfrey.github.io/phys323-chaotic-viewer/data/MJTestDataRun.bin"><br><br>
+      <label for="bin_file">Import Binary File: </label>
       <input id="bin_file" type="file" onchange="{                                                                                                                                                       
+        //https://github.com/tensorflow/tfjs/issues/386
         let myInline = (async function () {							    								    
-           const myBinaryFile = await	fetch(document.getElementById('myBinaryFile').value)    
-           const myBuffer = await myBinaryFile.arrayBuffer() 
+          const myBinaryFile = await	fetch(document.getElementById('bin_file'))
+          const myBuffer = await myBinaryFile.arrayBuffer() 
            
-           const dv = new DataView(myBuffer);
-           var f32 = new Float32Array(myBuffer.byteLength / 4);
-           const littleEndian = true;
+          const dv = new DataView(myBuffer);
+          var f32 = new Float32Array(myBuffer.byteLength / 4);
+          const littleEndian = true;
           
-           for (let i = 0; i < f32.length; i++) {
-              f32[i] = dv.getFloat32(i*4, littleEndian);
-           }   
+          for (let i = 0; i < f32.length; i++) {
+            f32[i] = dv.getFloat32(i*4, littleEndian);
+          }   
       
-           const myWeightsJSON = JSON.stringify(f32,null,4)  	  
-           console.log(myWeightsJSON);
-           //document.getElementById('myWeights').value =  myWeightsJSON 
-           })()
+          console.log(f32);
+
+          const myWeightsJSON = JSON.stringify(f32,null,4)  	  
+          console.log(myWeightsJSON);
+          //document.getElementById('myWeights').value =  myWeightsJSON 
+          })()
       }" />
       <!--<input id="txt_file" type="file" onchange="loadNewScene()" />-->
       <label for="display_format">Display Format: </label>
