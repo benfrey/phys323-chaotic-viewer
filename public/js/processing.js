@@ -41,31 +41,41 @@ function init() {
 }
 
 // Inline function when upload is complete to read binary file
-function fileChange() {
-    const binFile = document.getElementById('bin_file').files[0];
-    const txtFile = document.getElementById('bin_file').files[1];
-
-    // Load the bin file and wait until complete
-    loadBin(binFile);
+async function fileChange() {
+    
+    // Iterate through the two uploaded files
+    for (var i = 0; i < document.getElementById("upload_file").files.length; i++) {
+        if (document.getElementById("upload_file").files[i].name.includes(".bin")) {
+            appHolder.attributes.binFile = document.getElementById("upload_file").files[i];
+        } else if (document.getElementById("upload_file").files[i].name.includes(".txt")) {
+            appHolder.attributes.txtFile = document.getElementById("upload_file").files[i];
+        }
+    }
 
     // Load the text file and wait until complete
-    loadTxt(txtFile);
+    await loadTxt(appHolder.attributes.txtFile);
+
+    // Load the bin file and wait until complete
+    await loadBin(appHolder.attributes.binFile);
+
+    console.log(appHolder);
+
 
     // Process data through Sav-Gol filter
-    appHolder.data.angPosArray = sgg(appHolder.data.rawPosArray, 1/appHolder.attributes.sampleFreq, savGol); // data input, deltaX value, sav-gol filter options
+    //console.log(appHolder.data.rawPosArray);
+    //appHolder.data.angPosArray = await sgg(appHolder.data.rawPosArray, 1/appHolder.attributes.sampleFreq, appHolder.attributes.savGol); // data input, deltaX value, sav-gol filter options
 
-    // Determine if we are plotting phase or poincare section
-    if (1 == 0) {
-        graph.xData = [-1,5]; 
-        graph.yData = [1,0];
+    console.log(appHolder);
+    // Determine if we are plotting phase or poincare section, update graph data
+    if (1 == 1) {
+        graph.xData = appHolder.data.posArray; 
+        graph.yData = appHolder.data.angPosArray;
     } else if (1 == 0) {
         graph.xData = [-1,5]; 
         graph.yData = [1,0]; // Need some way to do slicing with intervals on data to form a poincare section
     }
 
-    // Update plot - do I actually need to do this?
-    xData = null;
-    yData = null;
+    console.log(appHolder);
 } 
 
 //https://github.com/tensorflow/tfjs/issues/386
@@ -91,16 +101,33 @@ function loadBin(binFile) {
   
         // Update the rawPosArray
         appHolder.data.rawPosArray = f64;
+        appHolder.data.angPosArray = sgg(appHolder.data.rawPosArray, 1/appHolder.attributes.sampleFreq, appHolder.attributes.savGol); // data input, deltaX value, sav-gol filter options
     };
     fr.readAsArrayBuffer(binFile); 
 }
 
 function loadTxt(txtFile) {
-    //
+    /*
+    Parameters: txtFile - a txt file instance
+    Return none
+    */
 
-    // Update appHolder arributes
-    appHolder.attributes.txtFileContents = "empty stuff";
-    appHolder.attributes.dataPoints = 896000;
-    appHolder.attributes.sampleSize = 6400;
-    appHolder.attributes.sampleFreq = 6400;
+    var fr = new FileReader();
+    fr.onload = function () {
+        // Update appHolder arributes
+        appHolder.attributes.txtFileContents = fr.result;
+        console.log(appHolder);
+        let strings = fr.result.split('\n');
+        appHolder.attributes.dataPoints = parseInt(Number(strings[3]));
+        appHolder.attributes.sampleSize = parseInt(Number(strings[5]));
+        appHolder.attributes.sampleFreq = parseInt(Number(strings[7]));
+    };
+    fr.readAsText(txtFile);
+
+}
+
+function hasExtension(inputID, exts) {
+    var fileName = document.getElementById(inputID).value[1];
+    console.log(fileName);
+    //return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$')).test(fileName);
 }
