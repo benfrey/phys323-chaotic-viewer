@@ -2,7 +2,6 @@
 // Couldn't find a sav-gol Javascript filter online so I copied fragments of their code...
 function sgg(ys, xs, options = {}) {
     let { windowSize = 9, derivative = 0, polynomial = 3 } = options;
-    console.log(xs);
     if (windowSize % 2 === 0 || windowSize < 5 || !Number.isInteger(windowSize)) {
         throw new RangeError('Invalid window size (should be odd and at least 5 integer number)');
     }

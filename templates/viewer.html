@@ -16,7 +16,6 @@
     <script src="https://cdn.plot.ly/plotly-2.4.2.min.js"></script>
     <script src="/js/processing.js"></script>
     <script src="/js/savitzky-golay.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/npm/ml-savitzky-golay-generalized@4.0.1/lib/index.min.js"></script>-->
 </head>
 <body>
     <!-- create template here -->
@@ -29,24 +28,25 @@
         </div>
     </div>
     <div id="gui">
+      <b>Savitsky-Golay Filter</b>
+      <label for="side_points">Side points (k):</label>
+      <input type="text" id="side_points" name="side_points" value="600"><br>
+      <label for="poly_order">Regression polynomial order:</label>
+      <input type="text" id="poly_order" name="poly_order" value="4"><br>
+      Upload Files
       <label for="upload_file">Select Binary and Text File: </label>
-      <input id="upload_file" type="file" onchange="fileChange()" multiple/>
-      <!--<input id="txt_file" type="file" onchange="loadNewScene()" />-->
+      <input id="upload_file" type="file" multiple/>
+      Graph Elements
       <label for="display_format">Display Format: </label>
-      <select id="display_format" @change="selectShadingAlgorithm()">
-          <option value="phasespace">Phase Space</option>
-          <option value="poincare">Poincare</option>
+      <select id="display_format">
+          <option value="0">Phase Space</option>
+          <option value="1">Poincare</option>
+          <option value="2">Animated Poincare</option>
       </select>
+      <input type="submit" value="Submit" onclick="fileChange()">
       <br/>
-      <div class="spacer2"></div>
-  </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/vendor.js"></script>
-    <script src="/js/foundation.js"></script>
-    <script type="application/javascript">
-        $(document).foundation();
-    </script>
-
+    </div>
+    
     <div id="graphDiv">
     </div>
 
@@ -62,93 +62,7 @@
         }
       }];
 
-      /*
-      for ( var i = 0 ; i < yData.length ; i++ ) {
-        var result = {
-          x: xData,
-          y: yData,
-          type: 'scatter',
-          mode: 'lines',
-          line: {
-            width: 1
-          }
-        };
-        data.push(result);
-      }*/
-
-      var layout = {
-        /*showlegend: false,
-        /*height: 600,
-        width: 1200,
-        xaxis: {
-          showline: true,
-          showgrid: false,
-          showticklabels: true,
-          linecolor: 'rgb(204,204,204)',
-          linewidth: 2,
-          autotick: false,
-          ticks: 'outside',
-          tickcolor: 'rgb(204,204,204)',
-          tickwidth: 2,
-          ticklen: 5,
-          tickfont: {
-            family: 'Arial',
-            size: 12,
-            color: 'rgb(82, 82, 82)'
-          }
-        },
-        yaxis: {
-          showgrid: false,
-          zeroline: false,
-          showline: false,
-          showticklabels: false
-        },
-        autosize: true,
-        margin: {
-          autoexpand: false,
-          l: 100,
-          r: 20,
-          t: 100
-        },
-        annotations: [
-          {
-            xref: 'paper',
-            yref: 'paper',
-            x: 0.0,
-            y: 1.05,
-            xanchor: 'left',
-            yanchor: 'bottom',
-            text: null,
-            font:{
-              family: 'Arial',
-              size: 30,
-              color: 'rgb(37,37,37)'
-            },
-            showarrow: false
-          }
-        ]*/
-      };
-
-      /*for( var i = 0 ; i < yData.length ; i++ ) {
-        var result = {
-          xref: 'paper',
-          x: 0.95,
-          y: yData[i][11],
-          xanchor: 'right',
-          yanchor: 'middle',
-          text: state_abbreviations[i],
-          font: {
-            family: 'Arial',
-            size: 16,
-            color: 'black'
-          },
-          showarrow: false
-        };
-
-        layout.annotations.push(result);
-      }*/
-
-      Plotly.newPlot('graphDiv', data, layout);
+      Plotly.newPlot('graphDiv', data);
 
     </script>
 </body>
