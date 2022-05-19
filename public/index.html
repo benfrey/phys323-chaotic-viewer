@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Javascript ChaoticViewer</title>
+    <title>Web-based ChaoticViewer</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/simple-sidebar.css" rel="stylesheet">
     <link href="font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -30,6 +30,7 @@
                             <ul class="nav navbar-nav">
                                 <li class="active" ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
                             </ul>
+                            <p style="margin: 10px 0px 0px 850px; font-size: 25px;">Web-based ChaoticViewer</p>
                 </div><!-- bs-example-navbar-collapse-1 -->
     </nav>
     <div id="wrapper">
@@ -85,20 +86,35 @@
                         }];
 
                         var layout = {
+                            title: {
+                                text: null,
+                            },
                             autosize: false,
-                            width: 800,
+                            width: 1200,
                             height: 800,
                             margin: {
-                                l: 20,
+                                l: 40,
                                 r: 20,
-                                b: 20,
-                                t: 20,
+                                b: 40,
+                                t: 50,
                                 pad: 4
                             },
-                            xaxis: {range: [-Math.PI, Math.PI]},
-                            yaxis: {range: [-20, 20]}
+                            xaxis: {
+                                autorange: false,
+                                range: [-Math.PI, Math.PI],
+                                title: {
+                                    text: 'Angular Position [rad]',
+                                },
+                            },
+                            yaxis: {
+                                autorange: false,
+                                range: [-20, 20],
+                                title: {
+                                    text: 'Angular Velocity [rad/s]',
+                                },
+                            }
                         }
-                  
+
                         Plotly.newPlot('graphDiv', data, layout);
                   
                     </script>

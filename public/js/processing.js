@@ -30,7 +30,9 @@ function init() {
         graph: {
             xData: null,                // X-axis data that will be displayed to plot
             yData: null,                // Y-axis data that will be displayed to plot 
-            viewType: 0                 // 0 for phase, 1 for poincare, 2 for animated poincare (step through theta)
+            viewType: 1,                // 0 for phase, 1 for poincare, 2 for animated poincare (step through theta)
+            mode: 'line',               // 'line' is used for phase, 'marker' is used for poincare
+            title: null                 // Plot title - will depend if we are plotting phase space or poincare section
         }
     };
 
@@ -92,14 +94,22 @@ async function uploadData() {
     });
 } 
 
+// Update the graph. We already have data saved.
 async function graphUpdate() {
-    // Populate graph arrays
-    await populateGraphArrays([appHolder.data.posArray, appHolder.data.angPosArray], (result) => {
-        new Promise((res, rej) => {
-            // Update plot
-            let pResult = updatePlot(result);
-            res(pResult);
-        });
+    appHolder.graph.viewType = parseInt(document.getElementById("display_format").selectedIndex);
+
+    new Promise((res, rej) => {
+        // Populate graph arrays
+        let result = populateGraphArrays([appHolder.data.posArray, appHolder.data.angPosArray]);
+        appHolder.graph.xData = result[0];
+        appHolder.graph.yData = result[1];
+        res(result);
+    }).then((result) => {
+        // Update plot
+        result = updatePlot(result);
+        return result
+    }).then((result) => {
+        console.log("Graph updated");
     });
 }
 
@@ -194,30 +204,64 @@ function populateGraphArrays(data) {
 }
 
 async function updatePlot(inputGraph) {
+    // Update title and axis label variables
+    if (appHolder.graph.viewType == 0){
+        appHolder.graph.mode = 'line';
+        appHolder.graph.title = "Phase Space of Dynamic System Run: "+appHolder.attributes.txtFile.name;
+    } else {
+        appHolder.graph.mode = 'markers';
+        appHolder.graph.title = "Poincare Section of Dynamic System Run: "+appHolder.attributes.txtFile.name;
+    }
+    
     console.log("Updating plot...");
 
     var graphDiv = document.getElementById('graphDiv')
 
-    console.log(appHolder.graph.viewType);
+    //console.log(appHolder.graph.viewType);
     //console.log(inputGraph[1]);
-
-    let customMode = function() {
-        if (appHolder.graph.viewType == 0) {
-            return 'lines';
-        } else {
-            return 'markers';
-        }
-    }; 
 
     var data = [{
       x: inputGraph[0],
       y: inputGraph[1],
       type: 'scatter',
-      mode: 'markers'
+      mode: appHolder.graph.mode,
+      marker: {
+        size: 2,
+      },
     }];
 
-    console.log(customMode);
+    var layout = {
+        title: {
+            text: appHolder.graph.title,
+        },
+        autosize: false,
+        width: 1200,
+        height: 800,
+        margin: {
+            l: 40,
+            r: 20,
+            b: 40,
+            t: 50,
+            pad: 4
+        },
+        xaxis: {
+            autorange: false,
+            range: [-Math.PI, Math.PI],
+            title: {
+                text: 'Angular Position [rad]',
+            },
+        },
+        yaxis: {
+            autorange: false,
+            range: [-20, 20],
+            title: {
+                text: 'Angular Velocity [rad/s]',
+            },
+        }
+    }
     
-    Plotly.newPlot(graphDiv, data);
+    Plotly.react(graphDiv, data, layout);
+    console.log(appHolder);
+
     return 1;
 }
