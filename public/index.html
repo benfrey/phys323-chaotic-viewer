@@ -40,26 +40,27 @@
                     <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
                     <ul class="nav-pills nav-stacked" style="list-style-type:none;">
                     <li>
-                        <p>Upload Files</p>
+                        <h2>Upload Files</h2>
                         <label for="upload_file">Select Binary and Text File: </label>
                         <input id="upload_file" type="file" multiple/>
-                    </li>
+                    </li><br/>
                     <li>
-                        <p>Savitsky-Golay Filter</p>
-                        <label for="side_points">Side points (k):</label>
+                        <h2>Savitsky-Golay Filter</h2>
+                        <label for="side_points">Side points (k):</label><br>
                         <input type="text" id="side_points" name="side_points" value="600"><br>
-                        <label for="poly_order">Regression polynomial order:</label>
-                        <input type="text" id="poly_order" name="poly_order" value="4"><br>
-                        <input type="submit" value="Submit" onclick="fileChange()">
-                    </li>
+                        <label for="poly_order">Regression polynomial order:</label><br>
+                        <input type="text" id="poly_order" name="poly_order" value="4"><br><br>
+                        <input type="submit" value="Upload and Process" onclick="uploadData()">
+                    </li><br/>
                     <li>
-                        <p>Graph Elements</p>
-                        <label for="display_format">Display Format: </label>
-                        <select id="display_format">
+                        <h2>Graph Elements</h2>
+                        <label for="display_format">Display Format: </label><br>
+                        <select id="display_format"><br>
                             <option value="0">Phase Space</option>
                             <option value="1">Poincare</option>
                             <option value="2">Animated Poincare</option>
-                        </select>
+                        </select><br><br>
+                        <input type="submit" value="Update Graph" onclick="graphUpdate()">
                     </li>
                     </ul>
                 </li>
@@ -77,18 +78,28 @@
                     <script type="text/javascript">
 
                         var data = [{
-                          x: [-3, -1, 0, 1, 2, 3],
-                          y: [2, -4, 7, -3, -2, 8],
-                          width: 800,
-                          height: 800,
-                          type: 'scatter',
-                          mode: 'lines',
-                          line: {
-                            width: 1
-                          }
+                            x: [],
+                            y: [],
+                            type: 'scatter',
+                            mode: 'lines',
                         }];
+
+                        var layout = {
+                            autosize: false,
+                            width: 800,
+                            height: 800,
+                            margin: {
+                                l: 20,
+                                r: 20,
+                                b: 20,
+                                t: 20,
+                                pad: 4
+                            },
+                            xaxis: {range: [-Math.PI, Math.PI]},
+                            yaxis: {range: [-20, 20]}
+                        }
                   
-                        Plotly.newPlot('graphDiv', data);
+                        Plotly.newPlot('graphDiv', data, layout);
                   
                     </script>
                 </div>

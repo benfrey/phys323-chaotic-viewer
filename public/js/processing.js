@@ -45,7 +45,9 @@ function animate(timestamp) {
 }
 
 // Inline function when upload is complete to read binary file
-async function fileChange() {
+async function uploadData() {
+    console.log("New submission click...");
+    
     // Update appHolder with selected attributes
     appHolder.attributes.windowSize = parseInt(Number(document.getElementById("side_points").value)*2+1);
     appHolder.attributes.polynomial = parseInt(Number(document.getElementById("poly_order").value));
@@ -60,16 +62,13 @@ async function fileChange() {
         }
     }
 
-    console.log(appHolder);
-
     // Load the text file and wait until complete
     loadTxt(appHolder.attributes.txtFile);
-
-    console.log(appHolder);
 
     // Load the bin file and wait until complete
     await loadBin(appHolder.attributes.binFile, (rawPosArray) => {
         new Promise((res, rej) => {
+            // Bin loaded, now process data through SG smooth and derivative
             appHolder.data.rawPosArray = rawPosArray;
             let x = processData(rawPosArray, 0);
             x.forEach(function(element, index, array) {
@@ -80,21 +79,32 @@ async function fileChange() {
             appHolder.data.angPosArray = y;
             res([x,y])
         }).then((result) => {
+            // Data processed through SG, now populate graph arrays based on display type
             result = populateGraphArrays(result);
             appHolder.graph.xData = result[0];
             appHolder.graph.yData = result[1];
             return result;
         }).then((result) => {
-            // Update plot
+            // Graph arrays populated, now Update the plotly graph
             result = updatePlot(result);
-            console.log(appHolder);
             return result;
         });
     });
 } 
 
+async function graphUpdate() {
+    // Populate graph arrays
+    await populateGraphArrays([appHolder.data.posArray, appHolder.data.angPosArray], (result) => {
+        new Promise((res, rej) => {
+            // Update plot
+            let pResult = updatePlot(result);
+            res(pResult);
+        });
+    });
+}
+
 function processData(inArray, inDerivative) {
-    console.log(inArray);
+    console.log("Applying SGG filter to array...");
     return sgg(inArray, 1/appHolder.attributes.sampleFreq, 
     {windowSize: appHolder.attributes.windowSize, derivative: inDerivative, polynomial: appHolder.attributes.polynomial}); // data input, deltaX value, sav-gol filter options
 }
@@ -104,7 +114,9 @@ function loadBin(binFile, callback) {
     /*
     Parameters: binFile - a binary file instance
     Return none
-    */		    								          
+    */		    	
+   
+    console.log("Loading binary file...");
 
     // More on the FileReader API by Mozilla: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
     var fr = new FileReader();
@@ -132,6 +144,8 @@ function loadTxt(txtFile) {
     Return none
     */
 
+    console.log("Loading text file...");
+
     var fr = new FileReader();
     fr.onload = function () {
         // Update appHolder arributes
@@ -145,6 +159,8 @@ function loadTxt(txtFile) {
 }
 
 function populateGraphArrays(data) {
+    console.log("Populating graph arrays...");
+    
     // Remove filter edges
     data[0] = data[0].slice(parseInt(appHolder.attributes.windowSize/2), -parseInt(appHolder.attributes.windowSize/2));
     data[1] = data[1].slice(parseInt(appHolder.attributes.windowSize/2), -parseInt(appHolder.attributes.windowSize/2));
@@ -177,23 +193,31 @@ function populateGraphArrays(data) {
     }
 }
 
-function updatePlot(inputGraph) {
+async function updatePlot(inputGraph) {
+    console.log("Updating plot...");
+
     var graphDiv = document.getElementById('graphDiv')
-    
-    console.log("Update plot");
-    console.log(inputGraph[0]);
-    console.log(inputGraph[1]);
+
+    console.log(appHolder.graph.viewType);
+    //console.log(inputGraph[1]);
+
+    let customMode = function() {
+        if (appHolder.graph.viewType == 0) {
+            return 'lines';
+        } else {
+            return 'markers';
+        }
+    }; 
 
     var data = [{
       x: inputGraph[0],
       y: inputGraph[1],
-      type: 'scatter'
+      type: 'scatter',
+      mode: 'markers'
     }];
+
+    console.log(customMode);
     
-    var layout = {
-        xaxis: {range: [-Math.PI, Math.PI]},
-        yaxis: {range: [-20, 20]}
-    };
-    Plotly.newPlot(graphDiv, data, layout);
+    Plotly.newPlot(graphDiv, data);
     return 1;
 }
