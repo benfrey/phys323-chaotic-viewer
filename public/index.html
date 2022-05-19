@@ -41,12 +41,13 @@
                     <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
                     <ul class="nav-pills nav-stacked" style="list-style-type:none;">
                     <li>
-                        <h2>Upload Files</h2>
+                        <h3>Upload Files</h3>
                         <label for="upload_file">Select Binary and Text File: </label>
                         <input id="upload_file" type="file" multiple/>
+                        <textarea id="txtFileContents" name="txtFileContents" rows="2" cols="40" readonly="readonly">Note: Binary and text files must be uploaded first to populate box</textarea>
                     </li><br/>
                     <li>
-                        <h2>Savitsky-Golay Filter</h2>
+                        <h3>Savitsky-Golay Filter</h3>
                         <label for="side_points">Side points (k):</label><br>
                         <input type="text" id="side_points" name="side_points" value="600"><br>
                         <label for="poly_order">Regression polynomial order:</label><br>
@@ -54,7 +55,7 @@
                         <input type="submit" value="Upload and Process" onclick="uploadData()">
                     </li><br/>
                     <li>
-                        <h2>Graph Elements</h2>
+                        <h3>Graph Elements</h3>
                         <label for="display_format">Display Format: </label><br>
                         <select id="display_format"><br>
                             <option value="0">Phase Space</option>

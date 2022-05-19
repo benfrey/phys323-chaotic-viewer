@@ -164,6 +164,10 @@ function loadTxt(txtFile) {
         appHolder.attributes.dataPoints = parseInt(Number(strings[3]));
         appHolder.attributes.sampleSize = parseInt(Number(strings[5]));
         appHolder.attributes.sampleFreq = parseInt(Number(strings[7]));
+
+        // Update textarea
+        let myTextArea = document.getElementById('txtFileContents');
+        myTextArea.innerHTML = appHolder.attributes.txtFileContents;
     };
     fr.readAsText(txtFile);
 }
