@@ -14,5 +14,5 @@ The main purpose of this project is to demonstrate the implementation of a web-b
 2. Click the "Upload and Process" button
 
 ## Runtime Demonstration
-Screenshot of a large binary file being uploaded (~1.02GB). Data is from a chaotic dynamic system.
+Screenshot of a large binary file being uploaded (~1.02GB). Data is from a chaotic dynamic system. Specifically, I was using the file "run2_ChaoticDAQ_chaotic" bin and txt from my PHYS323 folder.
 ![Poincare Section of Chaotic System](docs/poincare-chaotic-sc.png)
